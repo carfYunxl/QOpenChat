@@ -1,2 +1,7 @@
-# QOpenChat
-a OpenChat Application by Qt6
+## QOpenChat
+A OpenChat Application build by Qml and C++;
+mainly about:
+  - Socket programing;
+  - Qml UI;
+  - File Transfer;
+  - ...etc
