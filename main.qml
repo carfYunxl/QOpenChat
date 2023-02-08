@@ -10,6 +10,15 @@ Window
     visible: true
     title: qsTr("QOpenChat")
 
+    Window
+    {
+        id:child
+        width: 400
+        height: 300
+        visible: true
+        title: qsTr("child")
+    }
+
     Rectangle
     {
         id:background
