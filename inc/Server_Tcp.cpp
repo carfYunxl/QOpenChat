@@ -1,18 +1,21 @@
-#include "Server_Tcp.h"
+#include "inc/Server_Tcp.h"
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QHostAddress>
 #include <QList>
 #include <QNetworkInterface>
 
-Server_Tcp::Server_Tcp(quint32 port):m_server(nullptr),m_port(port)
+Server_Tcp::Server_Tcp()
+    : m_server(nullptr)
+    , m_socket(nullptr)
+    , m_port(0)
 {
-
 }
 Server_Tcp::~Server_Tcp()
 {
     delete m_server;
 }
+
 
 void Server_Tcp::find_server_addr()
 {
@@ -23,14 +26,14 @@ void Server_Tcp::find_server_addr()
         if(ipAddressList.at(i) != QHostAddress::LocalHost && ipAddressList.at(i).toIPv4Address())
         {
             //get first ipv4 address
-            mIpAddr = ipAddressList.at(i).toString();
+            m_ipAddr = ipAddressList.at(i).toString();
             break;
         }
     }
 
-    if(ipAddress.isEmpty())
+    if(m_ipAddr.isEmpty())
     {
-        mIpAddr = QHostAddress(QHostAddress::LocalHost).toString();
+        m_ipAddr = QHostAddress(QHostAddress::LocalHost).toString();
     }
 }
 
@@ -48,8 +51,28 @@ void Server_Tcp::init_server()
     }
 
     find_server_addr();
+}
 
-    //ui->label->setText
-    //("Server is running,please open your client now...\nIp = " + ipAddress + "\nPort = "
-    //+ QString::number(server->serverPort()));
+void Server_Tcp::start()
+{
+    init_server();
+    QObject::connect(m_server,&QTcpServer::newConnection,this,&Server_Tcp::accept_connect);
+}
+
+void Server_Tcp::accept_connect()
+{
+    m_socket = m_server->nextPendingConnection();
+
+    QObject::connect(m_socket,&QTcpSocket::readyRead,this,&Server_Tcp::read);
+}
+
+void Server_Tcp::read()
+{
+    m_read_text = QString(m_socket->readAll());
+    emit readyRead();
+}
+
+bool Server_Tcp::isListen()
+{
+    return m_server->isListening();
 }
