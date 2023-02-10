@@ -9,6 +9,7 @@ CONFIG += c++11
 
 SOURCES += \
         inc/Server_Tcp.cpp \
+        inc/client_tcp.cpp \
         inc/thread.cpp \
         main.cpp \
         inc/Server_Tcp.cpp
@@ -30,4 +31,5 @@ FORMS +=
 
 HEADERS += \
     inc/Server_Tcp.h \
+    inc/client_tcp.h \
     inc/thread.h

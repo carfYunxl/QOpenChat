@@ -3,6 +3,7 @@
 #include <QQmlEngine>
 #include <QQmlContext>
 #include "inc/Server_Tcp.h"
+#include "inc/client_tcp.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +14,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<Server_Tcp>("Server",1,0,"Server_Tcp");
+    qmlRegisterType<Client_Tcp>("Client",1,0,"Client_Tcp");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));

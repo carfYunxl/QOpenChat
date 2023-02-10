@@ -50,6 +50,7 @@ void Server_Tcp::init_server()
         return;
     }
 
+    setPort(m_server->serverPort());
     find_server_addr();
 }
 
@@ -63,6 +64,10 @@ void Server_Tcp::accept_connect()
 {
     m_socket = m_server->nextPendingConnection();
 
+    m_read_text = "connection come!";
+
+    emit newConnect();
+
     QObject::connect(m_socket,&QTcpSocket::readyRead,this,&Server_Tcp::read);
 }
 
@@ -75,4 +80,9 @@ void Server_Tcp::read()
 bool Server_Tcp::isListen()
 {
     return m_server->isListening();
+}
+
+void Server_Tcp::stop()
+{
+    m_socket->disconnectFromHost();
 }
