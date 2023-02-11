@@ -1,7 +1,9 @@
 QT += quick
 QT += network
 
-CONFIG += c++11
+CONFIG += c++11 #qmltypes
+#QML_IMPORT_NAME = Test
+#QML_IMPORT_MAJOR_VERSION = 1
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.

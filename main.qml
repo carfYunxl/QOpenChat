@@ -84,97 +84,14 @@ Window
         }
     }
 
-    Rectangle
+    ServerUI
     {
-        id:bg_server
-        radius: 5
-        x:10
-        y:100
-        width: 200
-        height: 500
-        color: "lightgreen"
-
-        Flickable
-        {
-             id: flick_server
-
-             width: bg_server.width
-             height: bg_server.height
-             anchors.centerIn: bg_server
-
-             contentWidth: edit_server.paintedWidth
-             contentHeight: edit_server.paintedHeight
-             clip: true
-
-             function ensureVisible(r)
-             {
-                 if (contentX >= r.x)
-                     contentX = r.x;
-                 else if (contentX+width <= r.x+r.width)
-                     contentX = r.x+r.width-width;
-                 if (contentY >= r.y)
-                     contentY = r.y;
-                 else if (contentY+height <= r.y+r.height)
-                     contentY = r.y+r.height-height;
-             }
-
-             TextEdit
-             {
-                 id: edit_server
-                 width: flick_server.width
-                 textFormat: TextEdit.RichText
-                 text: "<b>Hello</b> <i>World!</i>"
-                 focus: true
-                 wrapMode: TextEdit.Wrap
-                 onCursorRectangleChanged: flick_server.ensureVisible(cursorRectangle)
-             }
-         }
+        id:server_ui
+        newWidth: 600
+        newHeight: 400
+        y:200
+        bgcolor: "lightblue"
     }
 
-    Rectangle
-    {
-        id:bg_client
-        radius: 5
-        x:220
-        y:100
-        width: 200
-        height: 500
-        color: "lightblue"
 
-        Flickable
-        {
-             id: flick_client
-
-             width: bg_client.width
-             height: bg_client.height
-             anchors.centerIn: bg_client
-
-             contentWidth: edit_client.paintedWidth
-             contentHeight: edit_client.paintedHeight
-             clip: true
-
-             function ensureVisible(r)
-             {
-                 if (contentX >= r.x)
-                     contentX = r.x;
-                 else if (contentX+width <= r.x+r.width)
-                     contentX = r.x+r.width-width;
-                 if (contentY >= r.y)
-                     contentY = r.y;
-                 else if (contentY+height <= r.y+r.height)
-                     contentY = r.y+r.height-height;
-             }
-
-             TextEdit
-             {
-                 id: edit_client
-                 width: flick_client.width
-                 textFormat: TextEdit.RichText
-                 text: "<b>Hello</b> <i>World!</i>"
-                 focus: true
-                 wrapMode: TextEdit.Wrap
-                 onCursorRectangleChanged: flick_client.ensureVisible(cursorRectangle)
-             }
-         }
-    }
 }
