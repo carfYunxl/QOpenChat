@@ -5,50 +5,63 @@ Rectangle
 {
     property alias newWidth: root.width
     property alias newHeight: root.height
-    property alias bgcolor:root.color
 
     id:root
-    Rectangle
+    color: "lightblue"
+    FloatToolBar
     {
-        id:tool
-        width: root.width
-        height: root.height * 0.1
-        y:0
+        id:bar
+        awidth: root.width
+        bheight: 30
+        background_color: "lightblue"
+        background_radius: 6
 
-        Row
+        anchors.top: root.top
+
+        inner_control_radius: 5
+        inner_control_width: 50
+
+        onPressIdxSignal: function(idx)
         {
-            spacing: 5
-            Repeater
-            {
-                model: 3
-                Button
-                {
-                    width: 50
-                    height: root.height * 0.1
-                    background: Rectangle
-                    {
-                        anchors.fill:parent
-                        radius:5
-                        color:"lightgreen"
-                    }
-                    text: "btn" + index
-                }
-            }
+            bar.setIcon(idx,"qrc:/img/star2.png")
+            dlg.open()
+        }
+
+        onReleaseIdxSignal: function(idx)
+        {
+            bar.setIcon(idx,"qrc:/img/star1.png")
         }
     }
+
+    Dialog
+    {
+        id: dlg
+        title: "Title"
+        x:100
+        y:100
+        standardButtons: Dialog.Ok | Dialog.Cancel
+
+        onAccepted:
+        {
+            dlg.close()
+        }
+        onRejected:
+        {
+            dlg.close()
+        }
+    }
+
 
     Flickable
     {
          id: flick
          width: root.width
-         height: root.height * 0.7
-         anchors.centerIn: parent
+         height: root.height * 0.6
+         anchors.top: bar.bottom
 
          contentWidth: flick.width
          contentHeight: flick.height
          clip: true
-
-         y:root.height * 0.1
 
          function ensureVisible(r)
          {
@@ -75,17 +88,48 @@ Rectangle
          }
      }
 
+    FloatToolBar
+    {
+        id:bar2
+        awidth: root.width
+        bheight: 30
+        background_color: "lightblue"
+        background_radius: 6
+
+        y:flick.height + bar.height + 5
+
+        anchors.top: flick.bottom
+
+        inner_control_radius: 5
+        inner_control_width: 50
+
+        onPressIdxSignal: function(idx)
+        {
+            bar2.setIcon(idx,"qrc:/img/star2.png")
+            dlg.open()
+
+        }
+
+        onReleaseIdxSignal: function(idx)
+        {
+            bar2.setIcon(idx,"qrc:/img/star1.png")
+        }
+    }
+
     TextArea
     {
         width: root.width
         height: root.height * 0.2
-
-        y:root.height * 0.8
+        color: "white"
+        font.family: "Arial"
+        font.pixelSize: 30
+        font.italic: true
+        anchors.top: bar2.bottom
 
         background: Rectangle
         {
             anchors.fill:parent
-            color:"yellow"
+            color:"black"
         }
 
     }

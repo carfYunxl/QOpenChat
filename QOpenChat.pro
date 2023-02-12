@@ -1,4 +1,4 @@
-QT += quick
+QT += quick charts
 QT += network
 
 CONFIG += c++11 #qmltypes
@@ -16,7 +16,8 @@ SOURCES += \
         main.cpp \
         inc/Server_Tcp.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += qml.qrc \
+    icon.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

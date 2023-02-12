@@ -2,5 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>ServerUI.qml</file>
+        <file>FloatToolBar.qml</file>
     </qresource>
 </RCC>

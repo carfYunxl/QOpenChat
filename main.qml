@@ -11,6 +11,11 @@ Window
     height: 860
     visible: true
     title: qsTr("QOpenChat")
+//    flags: Qt.FramelessWindowHint
+//    Component.onCompleted:
+//    {
+//        console.log("flags: ",flags)
+//    }
 
     Server_Tcp
     {
@@ -87,11 +92,8 @@ Window
     ServerUI
     {
         id:server_ui
-        newWidth: 600
-        newHeight: 400
-        y:200
-        bgcolor: "lightblue"
+        newWidth: root.width
+        newHeight: 600
+        y:100
     }
-
-
 }
