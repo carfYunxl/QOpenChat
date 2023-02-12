@@ -57,7 +57,7 @@ Window
         onClicked:
         {
             server.start()
-            server.isListen() ? edit_server.append(qsTr("server is listening...")) : edit_server.append(qsTr("server open failed"))
+            server.isListen() ? server_show.append(qsTr("server is listening...")) : server_show.append(qsTr("server open failed"))
 
             console.log(server.ipAddr)
             console.log(server.port)
@@ -85,15 +85,28 @@ Window
         onClicked:
         {
             client.start();
-            edit_client.append(qsTr(client.cInfo));
+            client_show.append(qsTr(client.cInfo));
         }
     }
 
-    ServerUI
+    Row
     {
-        id:server_ui
-        newWidth: root.width
-        newHeight: 600
+        id:row
+        spacing: 10
+        x:50
         y:100
+        VisibleTextArea
+        {
+            id:server_show
+            width:500
+            height: 300
+        }
+
+        VisibleTextArea
+        {
+            id:client_show
+            width:500
+            height: 300
+        }
     }
 }

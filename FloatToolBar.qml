@@ -92,7 +92,8 @@ Rectangle
                 width: inner_control_width
                 height: root.height
                 radius: inner_control_radius
-                text: name
+
+                text: name + " " + value
                 onPressed:
                 {
                     pressIdxSignal(index)
@@ -176,7 +177,7 @@ Rectangle
 
         onAccepted:
         {
-            repeater.model.insert(repeater.model.count,{"name":text.text})
+            repeater.model.insert(repeater.model.count,{"name":text.text,"value":15})
             dlg.close()
         }
         onRejected:

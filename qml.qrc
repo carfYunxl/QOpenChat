@@ -3,5 +3,7 @@
         <file>main.qml</file>
         <file>ServerUI.qml</file>
         <file>FloatToolBar.qml</file>
+        <file>ServerBar.qml</file>
+        <file>VisibleTextArea.qml</file>
     </qresource>
 </RCC>

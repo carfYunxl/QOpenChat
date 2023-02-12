@@ -23,5 +23,10 @@
         <file>img/video.png</file>
         <file>img/yellowCircle.png</file>
         <file>img/yellowSquare.png</file>
+        <file>icon/close.png</file>
+        <file>icon/file.png</file>
+        <file>icon/open.png</file>
+        <file>icon/picture.png</file>
+        <file>icon/video.png</file>
     </qresource>
 </RCC>

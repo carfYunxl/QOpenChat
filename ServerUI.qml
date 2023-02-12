@@ -7,14 +7,13 @@ Rectangle
     property alias newHeight: root.height
 
     id:root
-    color: "lightblue"
     FloatToolBar
     {
         id:bar
         awidth: root.width
         bheight: 30
-        background_color: "lightblue"
-        background_radius: 6
+        background_color: "blue"
+        background_radius: 1
 
         anchors.top: root.top
 
@@ -75,16 +74,22 @@ Rectangle
                  contentY = r.y+r.height-height;
          }
 
-         TextEdit
+         Rectangle
          {
-             id: edit
-             width: root.width
-             textFormat: TextEdit.RichText
-             text: "<b>Hello</b> <i>World!</i>"
-             focus: true
-             wrapMode: TextEdit.Wrap
-             onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
-             selectByMouse: true
+             anchors.fill: parent
+             border.color: "black"
+             border.width: 1
+             TextEdit
+             {
+                 id: edit
+                 width: root.width
+                 textFormat: TextEdit.RichText
+                 text: "<b>Hello</b> <i>World!</i>"
+                 focus: true
+                 wrapMode: TextEdit.Wrap
+                 onCursorRectangleChanged: flick.ensureVisible(cursorRectangle)
+                 selectByMouse: true
+             }
          }
      }
 
@@ -93,11 +98,8 @@ Rectangle
         id:bar2
         awidth: root.width
         bheight: 30
-        background_color: "lightblue"
-        background_radius: 6
-
-        y:flick.height + bar.height + 5
-
+        background_color: "blue"
+        background_radius: 1
         anchors.top: flick.bottom
 
         inner_control_radius: 5
@@ -107,7 +109,6 @@ Rectangle
         {
             bar2.setIcon(idx,"qrc:/img/star2.png")
             dlg.open()
-
         }
 
         onReleaseIdxSignal: function(idx)
@@ -123,15 +124,13 @@ Rectangle
         color: "white"
         font.family: "Arial"
         font.pixelSize: 30
-        font.italic: true
         anchors.top: bar2.bottom
 
         background: Rectangle
         {
             anchors.fill:parent
-            color:"black"
+            color:"darkgrey"
         }
-
     }
 
 }
