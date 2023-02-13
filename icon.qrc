@@ -1,32 +1,14 @@
 <RCC>
     <qresource prefix="/">
         <file>img/bp1.jpg</file>
-        <file>img/bp2.jpg</file>
-        <file>img/flowStar.png</file>
-        <file>img/FY.jpg</file>
-        <file>img/fy.png</file>
-        <file>img/greenCircle.png</file>
-        <file>img/greenSquare.png</file>
-        <file>img/picture.png</file>
-        <file>img/pop1.png</file>
-        <file>img/pop2.png</file>
-        <file>img/pop3.png</file>
-        <file>img/redCircle.png</file>
-        <file>img/redSquare.png</file>
-        <file>img/snow.png</file>
-        <file>img/snow_39.png</file>
-        <file>img/soccer.png</file>
-        <file>img/star1.png</file>
-        <file>img/star2.png</file>
-        <file>img/star3.png</file>
-        <file>img/video (2).png</file>
-        <file>img/video.png</file>
-        <file>img/yellowCircle.png</file>
-        <file>img/yellowSquare.png</file>
         <file>icon/close.png</file>
         <file>icon/file.png</file>
         <file>icon/open.png</file>
         <file>icon/picture.png</file>
         <file>icon/video.png</file>
+        <file>img/closeServer.png</file>
+        <file>img/max.png</file>
+        <file>img/min.png</file>
+        <file>img/winClose.png</file>
     </qresource>
 </RCC>
