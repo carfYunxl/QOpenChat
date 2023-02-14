@@ -2,8 +2,11 @@ import QtQuick 2.2
 import QtQuick.Window
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+
 import Server 1.0
 import Client 1.0
+
+import "./function.js" as Functional
 
 ApplicationWindow
 {
@@ -12,21 +15,24 @@ ApplicationWindow
     height: 860
     visible: true
     title: qsTr("QOpenChat")
-    background: Image {
-        source: "qrc:/img/bp1.jpg"
+    background: Rectangle {
+        anchors.fill: parent
+        color: "black"
     }
     flags: Qt.FramelessWindowHint
+
+    property int icon_size: 30
 
     Server_Tcp
     {
         id:server
         onNewConnect:
         {
-            edit_server.text = server.rText;
+            sys_info.text = server.rText;
         }
         onReadyRead:
         {
-            edit_server.text = server.rText;
+            sys_info.text = server.rText;
         }
     }
 
@@ -35,7 +41,8 @@ ApplicationWindow
         id:client
         onConnect_success:
         {
-            edit_client.append(client.cInfo);
+            sys_info.text = client.cInfo;
+            repeater.model.insert(repeater.model.count,{"name":"client","value":15})
         }
     }
 
@@ -46,6 +53,23 @@ ApplicationWindow
         {
             anchors.fill:parent
             color:"lightblue"
+
+            MouseArea
+            {
+                anchors.fill: parent
+                property variant clickPos: "1,1"
+                cursorShape: "PointingHandCursor"
+                onPressed:
+                {
+                    clickPos  = Qt.point(mouseX,mouseY)
+                }
+
+                onPositionChanged: {
+                    var delta = Qt.point(mouseX-clickPos.x, mouseY-clickPos.y)
+                    root.x += delta.x;
+                    root.y += delta.y;
+                }
+            }
         }
         Menu
         {
@@ -87,18 +111,18 @@ ApplicationWindow
             anchors.fill: parent
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/icon/open.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "Open Tcp Server"
                 ToolTip.visible: hovered
 
                 onClicked:
                 {
                     server.start()
-                    server.isListen() ? server_show.append(qsTr("server is listening...")) : server_show.append(qsTr("server open failed"))
+                    server.isListen() ? sys_info.text = qsTr("server is listening..."): sys_info.text = qsTr("server open failed")
 
                     console.log(server.ipAddr)
                     console.log(server.port)
@@ -109,66 +133,73 @@ ApplicationWindow
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/img/closeServer.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "Close Tcp Server"
                 ToolTip.visible: hovered
                 onClicked:
                 {
                     client.start();
-                    client_show.append(qsTr(client.cInfo));
+                   sys_info.text = qsTr(client.cInfo);
                 }
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/icon/file.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "Choose File"
                 ToolTip.visible: hovered
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/icon/picture.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "Choose Picture"
                 ToolTip.visible: hovered
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/icon/video.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "Choose Video"
                 ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    client.start()
+                }
             }
             Label
             {
-                text: "Title"
-                width: 50
-                height: 50
+                text: "WorkBench Platform"
+                width: icon_size
+                height: icon_size
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
                 verticalAlignment: Qt.AlignVCenter
                 Layout.fillWidth: true
+                font.pointSize: 20
+                font.family: "微软雅黑"
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/img/min.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: qsTr("show normal")
                 ToolTip.visible: hovered
 
@@ -179,11 +210,11 @@ ApplicationWindow
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/img/max.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: qsTr("full screen")
                 ToolTip.visible: hovered
 
@@ -194,11 +225,26 @@ ApplicationWindow
             }
             ToolButton
             {
-                width: 50
-                height: 50
+                width: icon_size
+                height: icon_size
+                icon.source: "qrc:/icon/skin.png"
+                icon.width: icon_size
+                icon.height: icon_size
+                ToolTip.text: "change skin"
+                ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    repeater.model.insert(repeater.model.count,{"name":qsTr("Btn"),"value":15})
+                }
+            }
+            ToolButton
+            {
+                width: icon_size
+                height: icon_size
                 icon.source: "qrc:/img/winClose.png"
-                icon.width: 50
-                icon.height: 50
+                icon.width: icon_size
+                icon.height: icon_size
                 ToolTip.text: "close window"
                 ToolTip.visible: hovered
 
@@ -207,18 +253,12 @@ ApplicationWindow
                     root.close()
                 }
             }
-            ToolButton
-            {
-                width: 50
-                height: 50
-                text: qsTr("⋮")
-            }
          }
     }
     footer:Rectangle
     {
         id: bar
-        height:50
+        height:icon_size
         width: parent.width
         color:"lightblue"
 
@@ -242,15 +282,15 @@ ApplicationWindow
 
         RowLayout
         {
+            id:rowl
             anchors.fill: parent
             spacing: 10
-            Layout.alignment: Qt.AlignCenter
+            Layout.alignment: Qt.SizeAllCursor
             Text
             {
-                id: name
+                id: sys_info
                 height: parent.height
                 text: qsTr(" [sys] initialized......")
-//                elide: Text.left
                 font.pointSize: 10
                 font.family: "Consolas"
                 Layout.alignment: Qt.AlignLeft
@@ -259,9 +299,49 @@ ApplicationWindow
             {
                 id:showtime
                 text: "[ system time ] " + Qt.formatDateTime(new Date(),"yyyy-MM-dd HH:mm:ss") + " "
-//                text: "[sys time] " + Date() + " "
-                height: 50
+                height: icon_size
                 Layout.alignment: Qt.AlignRight
+            }
+            Rectangle
+            {
+                height: bar.height
+                width: 100
+                color: "transparent"
+                Layout.alignment:Qt.AlignRight
+
+                MouseArea
+                {
+                    property variant holdPos: "0,0"
+                    anchors.fill: parent
+                    cursorShape: Qt.SizeFDiagCursor
+
+                    onPressed:
+                    {
+                        holdPos  = Qt.point(mouseX,mouseY)
+                    }
+
+                    onPositionChanged:
+                    {
+                        var delta = Qt.point(mouseX-holdPos.x, mouseY-holdPos.y)
+                        if(root.width + delta.x > root.minimumWidth)
+                        {
+                            root.setWidth(root.width + delta.x);
+                        }
+                        else
+                        {
+                            root.setWidth(root.minimumWidth);
+                        }
+
+                        if(root.height + delta.y > root.minimumHeight)
+                        {
+                            root.setHeight(root.height + delta.y)
+                        }
+                        else
+                        {
+                            root.setHeight(root.minimumHeight)
+                        }
+                    }
+                }
             }
         }
     }
@@ -281,5 +361,48 @@ ApplicationWindow
     Component.onCompleted:
     {
         timer.start()
+    }
+
+    Flickable
+    {
+        id:contain
+        width: 200
+        height: parent.height
+        contentHeight: parent.height * 10
+
+        Column
+        {
+            id:content
+            y:10
+            spacing: 10
+            Repeater
+            {
+                id:repeater
+                model: ListModel
+                {
+
+                }
+                Button
+                {
+                    width: 200
+                    height: 60
+                    background: Rectangle
+                    {
+                        anchors.fill:parent
+                        color:"lightgreen"
+                    }
+                    text: name + value
+                }
+            }
+
+        }
+
+        Rectangle
+        {
+            width: 5
+            height: parent.height
+            x:parent.width + 5
+            color: "white"
+        }
     }
 }

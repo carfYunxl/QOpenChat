@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 2.5
 
+
 Rectangle
 {
     id: root
@@ -22,61 +23,7 @@ Rectangle
     signal pressIdxSignal(var idx)
     signal releaseIdxSignal(var idx)
 
-    function setText(idx,txt)
-    {
-        var item = getClickBtn(idx)
-        item.text = txt
-    }
 
-    function setWidth(idx,x)
-    {
-        var item = getClickBtn(idx)
-        item.width = x
-    }
-
-    function setIcon(idx,url)
-    {
-        var item = getClickBtn(idx)
-        item.icon.source = url
-    }
-
-    function getClickBtn(idx)
-    {
-        for(var i = 0;i < bar.children.length;++i)
-        {
-            var item = bar.children[i]
-            if( item instanceof Flow)
-            {
-                for(var j = 0;j < item.children.length;++j)
-                {
-                    var item2 = item.children[j]
-                    if(item2 instanceof Repeater)
-                    {
-                        return item2.itemAt(idx)
-                    }
-                }
-            }
-        }
-    }
-
-    function getBtnCount()
-    {
-        for(var i = 0;i < bar.children.length;++i)
-        {
-            var item = bar.children[i]
-            if( item instanceof Flow)
-            {
-                for(var j = 0;j < item.children.length;++j)
-                {
-                    var item2 = item.children[j]
-                    if(item2 instanceof Repeater)
-                    {
-                        return item2.children.length;
-                    }
-                }
-            }
-        }
-    }
 
     Flow
     {
