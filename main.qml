@@ -15,9 +15,9 @@ ApplicationWindow
     height: 860
     visible: true
     title: qsTr("QOpenChat")
-    background: Rectangle {
+    background: Image {
         anchors.fill: parent
-        color: "black"
+        source: "qrc:/img/bp1.jpg"
     }
     flags: Qt.FramelessWindowHint
 
@@ -42,7 +42,34 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client.cInfo;
-            repeater.model.insert(repeater.model.count,{"name":"client","value":15})
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client.ip + "]\n","value":"PORT:"+client.port})
+        }
+    }
+    Client_Tcp
+    {
+        id:client1
+        onConnect_success:
+        {
+            sys_info.text = client1.cInfo;
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client1.ip + "]\n","value":"PORT:"+client1.port})
+        }
+    }
+    Client_Tcp
+    {
+        id:client2
+        onConnect_success:
+        {
+            sys_info.text = client2.cInfo;
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client2.ip + "]\n","value":"PORT:"+client2.port})
+        }
+    }
+    Client_Tcp
+    {
+        id:client3
+        onConnect_success:
+        {
+            sys_info.text = client3.cInfo;
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client3.ip + "]\n","value":"PORT:"+client3.port})
         }
     }
 
@@ -142,8 +169,8 @@ ApplicationWindow
                 ToolTip.visible: hovered
                 onClicked:
                 {
-                    client.start();
-                   sys_info.text = qsTr(client.cInfo);
+                    server.closeServer()
+                    server.isListen() ? sys_info.text = qsTr("server is listening..."): sys_info.text = qsTr("server not listen")
                 }
             }
             ToolButton
@@ -170,10 +197,10 @@ ApplicationWindow
             {
                 width: icon_size
                 height: icon_size
-                icon.source: "qrc:/icon/video.png"
+                icon.source: "qrc:/img/bp1.jpg"
                 icon.width: icon_size
                 icon.height: icon_size
-                ToolTip.text: "Choose Video"
+                ToolTip.text: "Client"
                 ToolTip.visible: hovered
 
                 onClicked:
@@ -181,9 +208,71 @@ ApplicationWindow
                     client.start()
                 }
             }
+            ToolButton
+            {
+                width: icon_size
+                height: icon_size
+                icon.source: "qrc:/img/bg3.jpg"
+                icon.width: icon_size
+                icon.height: icon_size
+                ToolTip.text: "Client1"
+                ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    client1.start()
+                }
+            }
+            ToolButton
+            {
+                width: icon_size
+                height: icon_size
+                icon.source: "qrc:/img/bg4.jpg"
+                icon.width: icon_size
+                icon.height: icon_size
+                ToolTip.text: "Client2"
+                ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    client2.start()
+                }
+            }
+            ToolButton
+            {
+                width: icon_size
+                height: icon_size
+                icon.source: "qrc:/img/bg5.jpg"
+                icon.width: icon_size
+                icon.height: icon_size
+                ToolTip.text: "Client3"
+                ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    client3.start()
+                }
+            }
+
+            ToolButton
+            {
+                width: icon_size
+                height: icon_size
+                icon.source: "qrc:/img/bg6.jpg"
+                icon.width: icon_size
+                icon.height: icon_size
+                ToolTip.text: "Check Server is listrning"
+                ToolTip.visible: hovered
+
+                onClicked:
+                {
+                    server.isListen() ? sys_info.text = "server is still listen..." : sys_info.text = "server is not listen..."
+                }
+            }
+
             Label
             {
-                text: "WorkBench Platform"
+                text: "Tcp Server Manager"
                 width: icon_size
                 height: icon_size
                 elide: Label.ElideRight
@@ -192,6 +281,7 @@ ApplicationWindow
                 Layout.fillWidth: true
                 font.pointSize: 20
                 font.family: "微软雅黑"
+
             }
             ToolButton
             {

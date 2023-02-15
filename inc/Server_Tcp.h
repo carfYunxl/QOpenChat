@@ -18,7 +18,8 @@ public:
 public:
     Q_INVOKABLE void start();
     Q_INVOKABLE bool isListen();
-    Q_INVOKABLE void stop();
+    Q_INVOKABLE void closeServer();
+    Q_INVOKABLE void writeMsg(const QString& msg,int descriptor);
 
     QString ipAddr(){return m_ipAddr;}
     void setIpAddr(const QString& ip){m_ipAddr = ip;emit ipAddrChanged();}
@@ -29,7 +30,7 @@ public:
     QString rText(){return m_read_text;}
     void setRText(const QString& text){m_read_text = text;emit rTextChanged();}
 signals:
-    void readyRead();
+    void readyRead(int descriptor);
     void newConnect();
     void ipAddrChanged();
     void portChanged();
@@ -39,10 +40,10 @@ private:
     void init_server();
 private slots:
     void accept_connect();
-    void read();
 private:
+    QVector<QTcpSocket*>  m_socket_vector;
+
     QTcpServer* m_server;
-    QTcpSocket* m_socket;
     QString     m_ipAddr;
     quint32     m_port;
     QString     m_read_text;

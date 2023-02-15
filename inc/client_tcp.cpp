@@ -21,7 +21,8 @@ void Client_Tcp::read()
 
 void Client_Tcp::start()
 {
-    m_socket->connectToHost(m_ip,m_port);
+    m_socket->connectToHost(QHostAddress::LocalHost,m_port);
+    qDebug()<< "ip: " << m_ip << " port :" << m_port;
 
     QAbstractSocket::SocketState  state = m_socket->state();
 

@@ -1,4 +1,4 @@
-QT += quick charts
+QT += quick charts core
 QT += network
 
 CONFIG += c++11 #qmltypes
