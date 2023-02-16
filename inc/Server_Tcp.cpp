@@ -1,7 +1,6 @@
 #include "inc/Server_Tcp.h"
 #include <QTcpServer>
 #include <QTcpSocket>
-#include <QHostAddress>
 #include <QList>
 #include <QNetworkInterface>
 #include <QIODevice>
@@ -40,18 +39,19 @@ void Server_Tcp::find_server_addr()
 void Server_Tcp::init_server()
 {
     m_server = new QTcpServer(this);
+
+    find_server_addr();
+
     if(m_server == nullptr)
     {
         return;
     }
-    if(!m_server->listen())
+    if(!m_server->listen(QHostAddress(m_ipAddr)))
     {
         m_server->close();
         return;
     }
-
-    setPort(m_server->serverPort());
-    find_server_addr();
+    m_port = m_server->serverPort();
 }
 
 void Server_Tcp::start()
@@ -65,11 +65,17 @@ void Server_Tcp::accept_connect()
     qDebug() << "New Connection Come!";
     QTcpSocket* socket = m_server->nextPendingConnection();
 
-    socket->setSocketDescriptor(m_socket_vector.size());
-
     m_read_text = "connection come!";
 
+    qDebug() << socket->state();
+
+    QString str = "hello,connect to you!";
+    socket->write(str.toUtf8().data());
+
     emit newConnect();
+
+    m_ipAddr = socket->peerAddress().toString();
+    m_port = socket->peerPort();
 
     //当server收到某个client传来的信息时，可以通过descriptor判断是哪个client
     QObject::connect(socket,&QTcpSocket::readyRead,[=]()

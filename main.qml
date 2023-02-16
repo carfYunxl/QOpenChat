@@ -29,6 +29,9 @@ ApplicationWindow
         onNewConnect:
         {
             sys_info.text = server.rText;
+            console.log(qsTr("qml new connect!"));
+
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + server.ipAddr + "]\n","value":"PORT:"+server.port})
         }
         onReadyRead:
         {
@@ -42,7 +45,11 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client.cInfo;
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client.ip + "]\n","value":"PORT:"+client.port})
+
+        }
+        onRead_success:
+        {
+            sys_info.text = client.rInfo
         }
     }
     Client_Tcp
@@ -51,7 +58,7 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client1.cInfo;
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client1.ip + "]\n","value":"PORT:"+client1.port})
+//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client1.ip + "]\n","value":"PORT:"+client1.port})
         }
     }
     Client_Tcp
@@ -60,7 +67,7 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client2.cInfo;
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client2.ip + "]\n","value":"PORT:"+client2.port})
+//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client2.ip + "]\n","value":"PORT:"+client2.port})
         }
     }
     Client_Tcp
@@ -69,7 +76,7 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client3.cInfo;
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client3.ip + "]\n","value":"PORT:"+client3.port})
+//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client3.ip + "]\n","value":"PORT:"+client3.port})
         }
     }
 
@@ -156,6 +163,15 @@ ApplicationWindow
 
                     client.ip = server.ipAddr;
                     client.port = server.port;
+
+                    client1.ip = server.ipAddr;
+                    client1.port = server.port;
+
+                    client2.ip = server.ipAddr;
+                    client2.port = server.port;
+
+                    client3.ip = server.ipAddr;
+                    client3.port = server.port;
                 }
             }
             ToolButton
@@ -493,6 +509,36 @@ ApplicationWindow
             height: parent.height
             x:parent.width + 5
             color: "white"
+
+            MouseArea
+            {
+                property variant holdPos: "0,0"
+
+                anchors.fill: parent
+                cursorShape: Qt.SizeHorCursor
+
+                onPressed:
+                {
+                    holdPos  = Qt.point(mouseX,mouseY)
+                }
+
+                onPositionChanged:
+                {
+                    var delta = Qt.point(mouseX-holdPos.x, mouseY-holdPos.y)
+                    contain.width += delta.x;
+
+                    console.log(repeater.count)
+
+                    for(var i = 0;i < repeater.count;++i)
+                    {
+                        var item = repeater.itemAt(i)
+                        if( item instanceof Button)
+                        {
+                            item.width += delta.x
+                        }
+                    }
+                }
+            }
         }
     }
 }
