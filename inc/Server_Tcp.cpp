@@ -69,9 +69,10 @@ void Server_Tcp::accept_connect()
     QString str = "hello,connect to you!";
     socket->write(str.toUtf8().data());
 
+    qDebug() << socket->socketDescriptor();
+
     m_ipAddr = socket->peerAddress().toString();
     m_port = socket->peerPort();
-    socket->setPeerName("Client ");
 
     emit newConnect();
 
@@ -89,6 +90,8 @@ void Server_Tcp::accept_connect()
                  << "name "
                  << socket->peerName()
                  << "off line";
+
+        emit client_offline(socket->peerPort());
     });
 
     m_socket_vector.push_back(socket);

@@ -42,6 +42,8 @@ signals:
     void rTextChanged();
     void descriptorChanged();
 
+    void client_offline(int port);
+
 private:
     void find_server_addr();
     void init_server();

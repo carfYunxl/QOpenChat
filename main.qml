@@ -29,11 +29,30 @@ ApplicationWindow
         onNewConnect:
         {
             sys_info.text = server.rText;
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + server.ipAddr + "]\n","value":"PORT:"+ server.port + "\n","key":"Des:" + server.descriptor})
+            repeater.model.insert(repeater.model.count,{"name":server.ipAddr,"value":server.port,"key":server.descriptor})
         }
         onReadyRead :function(descriptor)
         {
             sys_info.text = server.rText;
+        }
+
+        onClient_offline: function(port)
+        {
+            console.log("offline")
+            console.log(port)
+            var index = -1;
+            console.log("count" + repeater.count)
+            for(var i = 0;i < repeater.count;++i)
+            {
+                console.log("port" + repeater.model.get(i).value)
+                if(repeater.model.get(i).value === port)
+                {
+                    console.log(i)
+                    repeater.model.remove(i);
+                    index = i;
+                    break;
+                }
+            }
         }
     }
 
@@ -500,7 +519,7 @@ ApplicationWindow
                         anchors.fill:parent
                         color:"lightgreen"
                     }
-                    text: name + value + key
+                    text: value
                 }
             }
 
