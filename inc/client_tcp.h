@@ -12,6 +12,7 @@ public:
     explicit Client_Tcp(QObject *parent = nullptr);
 public:
     Q_INVOKABLE void start();
+    Q_INVOKABLE void qml_disConnect();
 
     Q_PROPERTY(QString ip READ ip WRITE setIp NOTIFY ipChanged)
     Q_PROPERTY(quint16 port READ port WRITE setPort NOTIFY portChanged)
@@ -41,6 +42,7 @@ signals:
 private slots:
     void connected();
     void read();
+
 
 private:
     QTcpSocket*     m_socket;

@@ -62,29 +62,49 @@ void Server_Tcp::start()
 
 void Server_Tcp::accept_connect()
 {
-    qDebug() << "New Connection Come!";
     QTcpSocket* socket = m_server->nextPendingConnection();
 
-    m_read_text = "connection come!";
-
-    qDebug() << socket->state();
+    m_descriptor = socket->socketDescriptor();
 
     QString str = "hello,connect to you!";
     socket->write(str.toUtf8().data());
 
-    emit newConnect();
-
     m_ipAddr = socket->peerAddress().toString();
     m_port = socket->peerPort();
+    socket->setPeerName("Client ");
 
-    //当server收到某个client传来的信息时，可以通过descriptor判断是哪个client
+    emit newConnect();
+
     QObject::connect(socket,&QTcpSocket::readyRead,[=]()
     {
         m_read_text = QString(socket->readAll());
         emit readyRead(socket->socketDescriptor());
     });
 
+    QObject::connect(socket,&QTcpSocket::disconnected,[=](){
+        qDebug() << "Client "
+                 << socket->peerPort()
+                 << "address "
+                 << socket->peerAddress()
+                 << "name "
+                 << socket->peerName()
+                 << "off line";
+    });
+
     m_socket_vector.push_back(socket);
+}
+
+size_t Server_Tcp::descriptor() const
+{
+    return m_descriptor;
+}
+
+void Server_Tcp::setDescriptor(size_t newDescriptor)
+{
+    if (m_descriptor == newDescriptor)
+        return;
+    m_descriptor = newDescriptor;
+    emit descriptorChanged();
 }
 
 bool Server_Tcp::isListen()

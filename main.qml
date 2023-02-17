@@ -29,11 +29,9 @@ ApplicationWindow
         onNewConnect:
         {
             sys_info.text = server.rText;
-            console.log(qsTr("qml new connect!"));
-
-            repeater.model.insert(repeater.model.count,{"name":"IP:[" + server.ipAddr + "]\n","value":"PORT:"+server.port})
+            repeater.model.insert(repeater.model.count,{"name":"IP:[" + server.ipAddr + "]\n","value":"PORT:"+ server.port + "\n","key":"Des:" + server.descriptor})
         }
-        onReadyRead:
+        onReadyRead :function(descriptor)
         {
             sys_info.text = server.rText;
         }
@@ -58,7 +56,10 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client1.cInfo;
-//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client1.ip + "]\n","value":"PORT:"+client1.port})
+        }
+        onRead_success:
+        {
+            sys_info.text = client.rInfo
         }
     }
     Client_Tcp
@@ -67,7 +68,10 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client2.cInfo;
-//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client2.ip + "]\n","value":"PORT:"+client2.port})
+        }
+        onRead_success:
+        {
+            sys_info.text = client.rInfo
         }
     }
     Client_Tcp
@@ -76,7 +80,10 @@ ApplicationWindow
         onConnect_success:
         {
             sys_info.text = client3.cInfo;
-//            repeater.model.insert(repeater.model.count,{"name":"IP:[" + client3.ip + "]\n","value":"PORT:"+client3.port})
+        }
+        onRead_success:
+        {
+            sys_info.text = client.rInfo
         }
     }
 
@@ -158,9 +165,6 @@ ApplicationWindow
                     server.start()
                     server.isListen() ? sys_info.text = qsTr("server is listening..."): sys_info.text = qsTr("server open failed")
 
-                    console.log(server.ipAddr)
-                    console.log(server.port)
-
                     client.ip = server.ipAddr;
                     client.port = server.port;
 
@@ -185,8 +189,7 @@ ApplicationWindow
                 ToolTip.visible: hovered
                 onClicked:
                 {
-                    server.closeServer()
-                    server.isListen() ? sys_info.text = qsTr("server is listening..."): sys_info.text = qsTr("server not listen")
+                    client.qml_disConnect();
                 }
             }
             ToolButton
@@ -497,7 +500,7 @@ ApplicationWindow
                         anchors.fill:parent
                         color:"lightgreen"
                     }
-                    text: name + value
+                    text: name + value + key
                 }
             }
 
@@ -535,6 +538,7 @@ ApplicationWindow
                         if( item instanceof Button)
                         {
                             item.width += delta.x
+                            console.log(item.text)
                         }
                     }
                 }
