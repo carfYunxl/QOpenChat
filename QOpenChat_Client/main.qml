@@ -2,51 +2,35 @@ import QtQuick 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
-import Server 1.0
-
-import "./function.js" as Functional
+import Client 1.0
 
 ApplicationWindow
 {
     id:root
     width: 800
-    height: 580
+    height: 560
     visible: true
     title: qsTr("QOpenChat")
     background: Image {
         anchors.fill: parent
-        source: "qrc:/img/bp1.jpg"
+        source: "qrc:/icon/bp1.jpg"
     }
     flags: Qt.FramelessWindowHint
 
     property int icon_size: 30
 
-    Server_Tcp
+    Client_Tcp
     {
-        id:server
-        onNewConnect: function(port)
+        id:client
+
+        onConnect_success:
         {
-            sys_info.text = server.rText;
-            repeater.model.insert(repeater.model.count,{"port":port})
-        }
-        onReadyRead :function(port)
-        {
-            info_box.appendText(server.rText)
+            sys_info.text = qsTr("Success! to connect to host 8888")
         }
 
-        onClient_offline: function(port)
+        onRead_success:
         {
-            for(var i = 0;i < repeater.count;++i)
-            {
-                if(repeater.model.get(i).port === port)
-                {
-                    console.log(i)
-                    repeater.model.remove(i);
-                    break;
-                }
-            }
-
-            sys_info.text = qsTr("user " + port + "now offline...")
+            sys_info.text = client.rInfo
         }
     }
 
@@ -87,19 +71,19 @@ ApplicationWindow
             MenuSeparator { }
             Action { text: qsTr("&Quit") }
         }
-        Menu
-        {
-            title: qsTr("&Edit")
-            Action { text: qsTr("Cu&t") }
-            Action { text: qsTr("&Copy") }
-            Action { text: qsTr("&Paste") }
-        }
-        Menu
-        {
-            id:help
-            title: qsTr("&Help")
-            Action { text: qsTr("&About") }
-        }
+//        Menu
+//        {
+//            title: qsTr("&Edit")
+//            Action { text: qsTr("Cu&t") }
+//            Action { text: qsTr("&Copy") }
+//            Action { text: qsTr("&Paste") }
+//        }
+//        Menu
+//        {
+//            id:help
+//            title: qsTr("&Help")
+//            Action { text: qsTr("&About") }
+//        }
     }
 
     header: ToolBar
@@ -121,26 +105,28 @@ ApplicationWindow
                 icon.source: "qrc:/icon/open.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                ToolTip.text: "Open Tcp Server"
+                ToolTip.text: "Open Client"
                 ToolTip.visible: hovered
 
                 onClicked:
                 {
-                    server.start()
-                    server.isListen() ? sys_info.text = qsTr("server is listening..."): sys_info.text = qsTr("server open failed")
+                    client.start()
+                    sys_info.text = qsTr("connect to host 8888......")
                 }
             }
             ToolButton
             {
                 width: icon_size
                 height: icon_size
-                icon.source: "qrc:/img/closeServer.png"
+                icon.source: "qrc:/icon/closeServer.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                ToolTip.text: "Close Tcp Server"
+                ToolTip.text: "Close Cient"
                 ToolTip.visible: hovered
                 onClicked:
                 {
+                    client.qml_disConnect()
+                    sys_info.text = qsTr("disconnect from host 8888.......")
                 }
             }
             ToolButton
@@ -163,26 +149,9 @@ ApplicationWindow
                 ToolTip.text: "Choose Picture"
                 ToolTip.visible: hovered
             }
-
-            ToolButton
-            {
-                width: icon_size
-                height: icon_size
-                icon.source: "qrc:/img/bg6.jpg"
-                icon.width: icon_size
-                icon.height: icon_size
-                ToolTip.text: "Check Server is listrning"
-                ToolTip.visible: hovered
-
-                onClicked:
-                {
-                    server.isListen() ? sys_info.text = "server is still listen..." : sys_info.text = "server is not listen..."
-                }
-            }
-
             Label
             {
-                text: "Tcp Server Manager"
+                text: "QOpenChat"
                 width: icon_size
                 height: icon_size
                 elide: Label.ElideRight
@@ -197,7 +166,7 @@ ApplicationWindow
             {
                 width: icon_size
                 height: icon_size
-                icon.source: "qrc:/img/min.png"
+                icon.source: "qrc:/icon/min.png"
                 icon.width: icon_size
                 icon.height: icon_size
                 ToolTip.text: qsTr("show normal")
@@ -212,7 +181,7 @@ ApplicationWindow
             {
                 width: icon_size
                 height: icon_size
-                icon.source: "qrc:/img/max.png"
+                icon.source: "qrc:/icon/max.png"
                 icon.width: icon_size
                 icon.height: icon_size
                 ToolTip.text: qsTr("full screen")
@@ -242,7 +211,7 @@ ApplicationWindow
             {
                 width: icon_size
                 height: icon_size
-                icon.source: "qrc:/img/winClose.png"
+                icon.source: "qrc:/icon/winClose.png"
                 icon.width: icon_size
                 icon.height: icon_size
                 ToolTip.text: "close window"
@@ -257,7 +226,7 @@ ApplicationWindow
     }
     footer:Rectangle
     {
-        id: mFootBar
+        id: mFootbar
         height:icon_size
         width: parent.width
         color:"lightblue"
@@ -304,7 +273,7 @@ ApplicationWindow
             }
             Rectangle
             {
-                height: mFootBar.height
+                height: mFootbar.height
                 width: 5
                 color: "darkgray"
                 Layout.alignment:Qt.AlignRight
@@ -410,7 +379,7 @@ ApplicationWindow
         Rectangle
         {
             id:sidebar
-            width: 5
+            width: 10
             height: parent.height
             x:parent.width + 5
             color: "white"
@@ -440,7 +409,6 @@ ApplicationWindow
                         if( item instanceof Button)
                         {
                             item.width += delta.x
-                            console.log(item.text)
                         }
                     }
                 }
@@ -454,13 +422,69 @@ ApplicationWindow
         x:sidebar.x + sidebar.width
         y:0
         width:root.width - contain.width - sidebar.width - 5
-        height:root.height - mBar.height - mToolBar.height - mFootBar.height
+        height:root.height - mBar.height - mToolBar.height - mFootbar.height
         color: "transparent"
 
-        VisibleTextArea
+        border.color: "red"
+
+        ColumnLayout
         {
-            id:info_box
             anchors.fill: parent
+            spacing: 5
+            anchors.leftMargin: 5
+            anchors.topMargin: 1
+            anchors.bottomMargin: 1
+            InfoBox
+            {
+                id:info_box
+                infowidth: text_area.width
+                infoheight:text_area.height*0.7
+            }
+
+            Rectangle
+            {
+                id:text_tool_bar
+                height:30
+                width:text_area.width
+                color: "lightblue"
+
+                Row
+                {
+                    anchors.fill: parent
+                    spacing: 5
+                    Button
+                    {
+                        text: qsTr("font")
+                        height:text_tool_bar.height
+                        width: 50
+                    }
+                    Button
+                    {
+                        text: qsTr("size")
+                        height:text_tool_bar.height
+                        width: 50
+                    }
+                    Button
+                    {
+                        text: qsTr("send")
+                        height:text_tool_bar.height
+                        width: 50
+
+                        onClicked:
+                        {
+                            client.qml_send(send_box.infotext)
+                            send_box.clear_info()
+                        }
+                    }
+                }
+            }
+
+            InfoBox
+            {
+                id:send_box
+                infoheight:text_area.height - info_box.height - 30
+                infowidth:text_area.width
+            }
         }
     }
 }

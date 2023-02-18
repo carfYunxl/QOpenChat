@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/bg3.jpg</file>
+        <file>icon/bg4.jpg</file>
+        <file>icon/bg5.jpg</file>
+        <file>icon/bg6.jpg</file>
+        <file>icon/bg7.png</file>
+        <file>icon/bg8.jpg</file>
+        <file>icon/bg9.jpg</file>
+        <file>icon/bg10.jpg</file>
+        <file>icon/blingStar.png</file>
+        <file>icon/bp1.jpg</file>
+        <file>icon/close.png</file>
+        <file>icon/closeServer.png</file>
+        <file>icon/file.png</file>
+        <file>icon/max.png</file>
+        <file>icon/min.png</file>
+        <file>icon/open.png</file>
+        <file>icon/picture.png</file>
+        <file>icon/skin.png</file>
+        <file>icon/video.png</file>
+        <file>icon/winClose.png</file>
+    </qresource>
+</RCC>

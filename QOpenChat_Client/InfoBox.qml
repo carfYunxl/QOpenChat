@@ -10,10 +10,6 @@ Flickable
      {
          edit.text = qsTr("")
      }
-     function appendText(text)
-     {
-         edit.append(text)
-     }
      width: infowidth
      height: infoheight
 
@@ -36,7 +32,7 @@ Flickable
      Rectangle
      {
          anchors.fill: parent
-         color: "transparent"
+         color: "gray"
          TextEdit
          {
              id: edit

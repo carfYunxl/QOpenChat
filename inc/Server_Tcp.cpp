@@ -7,7 +7,6 @@
 
 Server_Tcp::Server_Tcp()
     : m_server(nullptr)
-    , m_port(0)
 {
 }
 Server_Tcp::~Server_Tcp()
@@ -15,43 +14,19 @@ Server_Tcp::~Server_Tcp()
     delete m_server;
 }
 
-
-void Server_Tcp::find_server_addr()
-{
-    QList<QHostAddress> ipAddressList = QNetworkInterface::allAddresses();
-
-    for(int i = 0;i < ipAddressList.size();++i)
-    {
-        if(ipAddressList.at(i) != QHostAddress::LocalHost && ipAddressList.at(i).toIPv4Address())
-        {
-            //get first ipv4 address
-            m_ipAddr = ipAddressList.at(i).toString();
-            break;
-        }
-    }
-
-    if(m_ipAddr.isEmpty())
-    {
-        m_ipAddr = QHostAddress(QHostAddress::LocalHost).toString();
-    }
-}
-
 void Server_Tcp::init_server()
 {
     m_server = new QTcpServer(this);
-
-    find_server_addr();
 
     if(m_server == nullptr)
     {
         return;
     }
-    if(!m_server->listen(QHostAddress(m_ipAddr)))
+    if(!m_server->listen(QHostAddress::Any,8888))
     {
         m_server->close();
         return;
     }
-    m_port = m_server->serverPort();
 }
 
 void Server_Tcp::start()
@@ -63,23 +38,17 @@ void Server_Tcp::start()
 void Server_Tcp::accept_connect()
 {
     QTcpSocket* socket = m_server->nextPendingConnection();
-
-    m_descriptor = socket->socketDescriptor();
+    m_socket_vector.push_back(socket);
 
     QString str = "hello,connect to you!";
     socket->write(str.toUtf8().data());
 
-    qDebug() << socket->socketDescriptor();
-
-    m_ipAddr = socket->peerAddress().toString();
-    m_port = socket->peerPort();
-
-    emit newConnect();
+    emit newConnect(socket->peerPort());
 
     QObject::connect(socket,&QTcpSocket::readyRead,[=]()
     {
         m_read_text = QString(socket->readAll());
-        emit readyRead(socket->socketDescriptor());
+        emit readyRead(socket->peerPort());
     });
 
     QObject::connect(socket,&QTcpSocket::disconnected,[=](){
@@ -92,22 +61,17 @@ void Server_Tcp::accept_connect()
                  << "off line";
 
         emit client_offline(socket->peerPort());
+
+
+//        for(int i = 0;i < m_socket_vector.size();++i)
+//        {
+//            if(m_socket_vector.at(i)->peerPort() == socket->peerPort())
+//            {
+//                delete m_socket_vector.at(i);
+//                break;
+//            }
+//        }
     });
-
-    m_socket_vector.push_back(socket);
-}
-
-size_t Server_Tcp::descriptor() const
-{
-    return m_descriptor;
-}
-
-void Server_Tcp::setDescriptor(size_t newDescriptor)
-{
-    if (m_descriptor == newDescriptor)
-        return;
-    m_descriptor = newDescriptor;
-    emit descriptorChanged();
 }
 
 bool Server_Tcp::isListen()
