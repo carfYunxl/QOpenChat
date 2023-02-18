@@ -4,7 +4,7 @@ import QtQuick.Layouts 1.3
 
 import Server 1.0
 
-import "./function.js" as Functional
+//import "./function.js" as Functional
 
 ApplicationWindow
 {

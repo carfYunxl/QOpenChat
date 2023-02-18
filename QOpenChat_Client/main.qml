@@ -1,4 +1,4 @@
-import QtQuick 2.2
+import QtQuick 2.15
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
@@ -11,7 +11,8 @@ ApplicationWindow
     height: 560
     visible: true
     title: qsTr("QOpenChat")
-    background: Image {
+    background: Image
+    {
         anchors.fill: parent
         source: "qrc:/icon/bp1.jpg"
     }
@@ -416,75 +417,17 @@ ApplicationWindow
         }
     }
 
-    Rectangle
+    Popup
     {
-        id:text_area
-        x:sidebar.x + sidebar.width
-        y:0
-        width:root.width - contain.width - sidebar.width - 5
-        height:root.height - mBar.height - mToolBar.height - mFootbar.height
-        color: "transparent"
-
-        border.color: "red"
-
-        ColumnLayout
-        {
-            anchors.fill: parent
-            spacing: 5
-            anchors.leftMargin: 5
-            anchors.topMargin: 1
-            anchors.bottomMargin: 1
-            InfoBox
-            {
-                id:info_box
-                infowidth: text_area.width
-                infoheight:text_area.height*0.7
-            }
-
-            Rectangle
-            {
-                id:text_tool_bar
-                height:30
-                width:text_area.width
-                color: "lightblue"
-
-                Row
-                {
-                    anchors.fill: parent
-                    spacing: 5
-                    Button
-                    {
-                        text: qsTr("font")
-                        height:text_tool_bar.height
-                        width: 50
-                    }
-                    Button
-                    {
-                        text: qsTr("size")
-                        height:text_tool_bar.height
-                        width: 50
-                    }
-                    Button
-                    {
-                        text: qsTr("send")
-                        height:text_tool_bar.height
-                        width: 50
-
-                        onClicked:
-                        {
-                            client.qml_send(send_box.infotext)
-                            send_box.clear_info()
-                        }
-                    }
-                }
-            }
-
-            InfoBox
-            {
-                id:send_box
-                infoheight:text_area.height - info_box.height - 30
-                infowidth:text_area.width
-            }
-        }
+       id:pop
+       width:200
+       height:50
+       visible: false
+       x:root.width - width
+       y:root.height - height - 20
+       TextArea
+       {
+           anchors.fill: parent
+       }
     }
 }

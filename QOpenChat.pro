@@ -16,7 +16,9 @@ SOURCES += \
         inc/Server_Tcp.cpp
 
 RESOURCES += qml.qrc \
-    icon.qrc
+    icon.qrc \
+    icon.qrc \
+    qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -34,3 +36,5 @@ FORMS +=
 HEADERS += \
     inc/Server_Tcp.h \
     inc/thread.h
+
+DISTFILES +=
