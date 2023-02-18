@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>FloatToolBar.qml</file>
+        <file>main.qml</file>
+        <file>MyMenuBar.qml</file>
+        <file>ServerBar.qml</file>
+        <file>VisibleTextArea.qml</file>
+        <file>QO_Menu.qml</file>
+        <file>QO_TextArea.qml</file>
+    </qresource>
+</RCC>

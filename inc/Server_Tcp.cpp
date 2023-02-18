@@ -84,15 +84,16 @@ void Server_Tcp::closeServer()
     m_server->close();
 }
 
-void Server_Tcp::writeMsg(const QString& msg,int descriptor)
+void Server_Tcp::sendMsgToClient(int port,const QString& msg)
 {
+    qDebug() << "port = " << port << "msg = " << msg;
     for(qsizetype i = 0;i < m_socket_vector.size();++i)
     {
-        if(m_socket_vector.at(i)->socketDescriptor() == descriptor)
+        QTcpSocket* socket = m_socket_vector.at(i);
+        if( socket->peerPort() == port)
         {
-            m_socket_vector.at(i)->write(msg.toLocal8Bit());
+            socket->write(msg.toUtf8().data());
             break;
         }
     }
-
 }

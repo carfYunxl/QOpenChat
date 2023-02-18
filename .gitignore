@@ -32,8 +32,6 @@
 *.app
 /bin/
 *.pro.user
-*.qrc
 
 /QOpenChat_Client/bin/
 /QOpenChat_Client/bin/*.pro.user
-/QOpenChat_Client/bin/*.qrc

@@ -18,6 +18,8 @@ SOURCES += \
 RESOURCES += qml.qrc \
     icon.qrc \
     icon.qrc \
+    icon.qrc \
+    qml.qrc \
     qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model

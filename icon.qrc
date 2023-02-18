@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icon/close.png</file>
+        <file>icon/file.png</file>
+        <file>icon/open.png</file>
+        <file>icon/picture.png</file>
+        <file>icon/skin.png</file>
+        <file>icon/video.png</file>
+        <file>img/bp1.jpg</file>
+        <file>img/closeServer.png</file>
+        <file>img/max.png</file>
+        <file>img/min.png</file>
+        <file>img/winClose.png</file>
+        <file>img/font.png</file>
+        <file>img/font_bold.png</file>
+        <file>img/font_color.png</file>
+        <file>img/font_italic.png</file>
+        <file>img/font_style.png</file>
+        <file>img/font_underline.png</file>
+        <file>img/Menu_bg.jpg</file>
+    </qresource>
+</RCC>

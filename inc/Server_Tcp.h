@@ -16,7 +16,7 @@ public:
     Q_INVOKABLE void start();
     Q_INVOKABLE bool isListen();
     Q_INVOKABLE void closeServer();
-    Q_INVOKABLE void writeMsg(const QString& msg,int descriptor);
+    Q_INVOKABLE void sendMsgToClient(int port,const QString& msg);
 
     QString rText(){return m_read_text;}
     void setRText(const QString& text){m_read_text = text;emit rTextChanged();}

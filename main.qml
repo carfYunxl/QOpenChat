@@ -164,22 +164,6 @@ ApplicationWindow
                 ToolTip.visible: hovered
             }
 
-            ToolButton
-            {
-                width: icon_size
-                height: icon_size
-                icon.source: "qrc:/img/bg6.jpg"
-                icon.width: icon_size
-                icon.height: icon_size
-                ToolTip.text: "Check Server is listrning"
-                ToolTip.visible: hovered
-
-                onClicked:
-                {
-                    server.isListen() ? sys_info.text = "server is still listen..." : sys_info.text = "server is not listen..."
-                }
-            }
-
             Label
             {
                 text: "Tcp Server Manager"
@@ -393,14 +377,13 @@ ApplicationWindow
                     }
                     text: port
 
-                    onClicked:
+                    onDoubleClicked:
                     {
-                        console.log("clicked index = " + index)
-
                         var item = repeater.itemAt(index)
                         if(item instanceof Button)
                         {
-                            console.log("client port = " + item.text)
+                            input_text.port = item.text
+                            input_text.open()
                         }
                     }
                 }
@@ -448,6 +431,31 @@ ApplicationWindow
         }
     }
 
+    QO_TextArea
+    {
+        id:input_text
+        w_x:500
+        w_y:240
+        posx: sidebar.x + sidebar.width
+        posy: root.height -input_text.w_y - 100
+
+        onSendInfo: function(text)
+        {
+            console.log(text + input_text.port)
+            server.sendMsgToClient(input_text.port,text);
+        }
+    }
+
+    QO_Menu
+    {
+        id:option_menu
+
+        onSendNormal:
+        {
+            input_text.open()
+        }
+    }
+
     Rectangle
     {
         id:text_area
@@ -456,6 +464,22 @@ ApplicationWindow
         width:root.width - contain.width - sidebar.width - 5
         height:root.height - mBar.height - mToolBar.height - mFootBar.height
         color: "transparent"
+
+        MouseArea
+        {
+            anchors.fill: parent
+            acceptedButtons: Qt.LeftButton | Qt.RightButton
+            focus: true
+            Keys.enabled: true
+
+            onClicked:function(mouse)
+            {
+                if (mouse.button === Qt.RightButton)
+                {
+                    option_menu.popup()
+                }
+            }
+        }
 
         VisibleTextArea
         {

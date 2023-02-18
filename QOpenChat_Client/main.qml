@@ -416,18 +416,4 @@ ApplicationWindow
             }
         }
     }
-
-    Popup
-    {
-       id:pop
-       width:200
-       height:50
-       visible: false
-       x:root.width - width
-       y:root.height - height - 20
-       TextArea
-       {
-           anchors.fill: parent
-       }
-    }
 }
