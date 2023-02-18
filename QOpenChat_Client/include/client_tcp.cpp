@@ -1,5 +1,6 @@
 #include "client_tcp.h"
 #include <QTcpSocket>
+#include <QHostAddress>
 Client_Tcp::Client_Tcp(QObject *parent)
     : QObject(parent)
     , m_socket(new QTcpSocket(this))
@@ -21,7 +22,7 @@ void Client_Tcp::read()
 
 void Client_Tcp::start()
 {
-    m_socket->connectToHost(QHostAddress(m_ip),m_port);
+    m_socket->connectToHost(QHostAddress::LocalHost,8888);
 
     QAbstractSocket::SocketState  state = m_socket->state();
 
@@ -43,4 +44,9 @@ void Client_Tcp::start()
 void Client_Tcp::qml_disConnect()
 {
     m_socket->disconnectFromHost();
+}
+
+void Client_Tcp::qml_send(QString str)
+{
+    m_socket->write(str.toUtf8().data());
 }
