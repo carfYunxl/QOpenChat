@@ -121,6 +121,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/open.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "Open Tcp Server"
                 ToolTip.visible: hovered
 
@@ -137,6 +138,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/closeServer.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "Close Tcp Server"
                 ToolTip.visible: hovered
                 onClicked:
@@ -150,6 +152,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/file.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "Choose File"
                 ToolTip.visible: hovered
             }
@@ -160,6 +163,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/picture.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "Choose Picture"
                 ToolTip.visible: hovered
             }
@@ -184,6 +188,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/min.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: qsTr("show normal")
                 ToolTip.visible: hovered
 
@@ -199,6 +204,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/max.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: qsTr("full screen")
                 ToolTip.visible: hovered
 
@@ -214,6 +220,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/skin.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "change skin"
                 ToolTip.visible: hovered
 
@@ -229,6 +236,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/winClose.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "red"
                 ToolTip.text: "close window"
                 ToolTip.visible: hovered
 
@@ -383,6 +391,7 @@ ApplicationWindow
                         if(item instanceof Button)
                         {
                             input_text.port = item.text
+                            input_text.title = qsTr("Client port = ") + item.text
                             input_text.open()
                         }
                     }
@@ -436,13 +445,36 @@ ApplicationWindow
         id:input_text
         w_x:500
         w_y:240
-        posx: sidebar.x + sidebar.width
+        posx: sidebar.x + sidebar.width + 50
         posy: root.height -input_text.w_y - 100
-
+        title:qsTr("Input")
         onSendInfo: function(text)
         {
-            console.log(text + input_text.port)
             server.sendMsgToClient(input_text.port,text);
+        }
+        onPosChange: function(x,y)
+        {
+            console.log("x = " + x + "y = " + y)
+            if((x - (sidebar.x + sidebar.width)) < 30)
+            {
+                console.log("YES " + x)
+                input_text.x = sidebar.x + sidebar.width;
+            }
+
+            if((root.width - input_text.width - x) < 30 )
+            {
+                input_text.x = root.width - input_text.width
+            }
+
+            if((mFootBar.y - input_text.height - y) < 30)
+            {
+                input_text.y = mFootBar.y - input_text.height
+            }
+
+            if((y - root.y) < 30)
+            {
+                input_text.y = root.y
+            }
         }
     }
 

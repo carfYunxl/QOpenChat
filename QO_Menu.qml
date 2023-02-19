@@ -26,8 +26,9 @@ Menu
 
         Action
         {
-            text: "&Normal"
+            text: "&SendBox"
             icon.source: "qrc:/icon/skin.png"
+            icon.color: "green"
             onTriggered:
             {
                 sendNormal()
@@ -37,6 +38,7 @@ Menu
         {
             text: "&File"
             icon.source: "qrc:/icon/file.png"
+            icon.color: "green"
         }
         Action
         {
@@ -47,6 +49,7 @@ Menu
         {
             text: "&Video"
             icon.source: "qrc:/icon/video.png"
+            icon.color: "green"
         }
     }
     MenuSeparator { }
@@ -64,16 +67,19 @@ Menu
         {
             text: "&Style"
             icon.source: "qrc:/img/font_style.png"
+            icon.color: "green"
         }
         Action
         {
             text: "&Color"
             icon.source: "qrc:/img/font_color.png"
+            icon.color: "green"
         }
         Action
         {
             text: "&Bold"
             icon.source: "qrc:/img/font_bold.png"
+            icon.color: "green"
         }
         Action
         {
@@ -84,6 +90,7 @@ Menu
         {
             text: "&UnderLine"
             icon.source: "qrc:/img/font_underline.png"
+            icon.color: "green"
         }
     }
     MenuSeparator { }
@@ -109,6 +116,7 @@ Menu
         Action
         {
             text: "Do Nothing"
+            icon.color: "green"
         }
     }
 }

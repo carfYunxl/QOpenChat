@@ -106,6 +106,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/open.png"
                 icon.width: icon_size
                 icon.height: icon_size
+                icon.color: "blue"
                 ToolTip.text: "Open Client"
                 ToolTip.visible: hovered
 
@@ -124,6 +125,7 @@ ApplicationWindow
                 icon.height: icon_size
                 ToolTip.text: "Close Cient"
                 ToolTip.visible: hovered
+                icon.color: "blue"
                 onClicked:
                 {
                     client.qml_disConnect()

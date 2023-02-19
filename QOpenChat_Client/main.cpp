@@ -2,6 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlEngine>
 #include <QQmlContext>
+#include <QIcon>
 #include "include/client_tcp.h"
 
 int main(int argc, char *argv[])
@@ -10,6 +11,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
     QApplication app(argc, argv);
+    app.setWindowIcon(QIcon(":/icon/blingStar.png"));
 
     qmlRegisterType<Client_Tcp>("Client",1,0,"Client_Tcp");
 
