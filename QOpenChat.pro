@@ -16,6 +16,7 @@ SOURCES += \
         inc/Server_Tcp.cpp
 
 RESOURCES += qml.qrc \
+    font_icon.qrc \
     icon.qrc \
     icon.qrc \
     icon.qrc \

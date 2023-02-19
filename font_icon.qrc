@@ -1,0 +1,18 @@
+<RCC>
+    <qresource prefix="/">
+        <file>font_icon/bold_1.png</file>
+        <file>font_icon/bold_2.png</file>
+        <file>font_icon/color_1.png</file>
+        <file>font_icon/color_2.png</file>
+        <file>font_icon/font_1.png</file>
+        <file>font_icon/font_2.png</file>
+        <file>font_icon/font_color_1.png</file>
+        <file>font_icon/font_color_2.png</file>
+        <file>font_icon/italic_1.png</file>
+        <file>font_icon/italic_2.png</file>
+        <file>font_icon/under_line_1.png</file>
+        <file>font_icon/under_line_2.png</file>
+        <file>font_icon/close-square (1).png</file>
+        <file>font_icon/close-square.png</file>
+    </qresource>
+</RCC>

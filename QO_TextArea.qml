@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.3
 
 Popup
 {
@@ -86,7 +87,7 @@ Popup
         anchors.left: label_bg.left
         anchors.right: label_bg.right
         width: root.width
-        height: root.height * 0.6
+        height: root.height * 0.7
         selectByMouse: true
         mouseSelectionMode: TextEdit.SelectWords
         wrapMode:TextEdit.WordWrap
@@ -97,48 +98,265 @@ Popup
             color:"white"
         }
 
-    }
-
-    Button
-    {
-        id:send
-        x:(root.width - send.width)/2
-        y:text_area.y + text_area.height + 3
-        width: root.width * 0.8
-        height: 30
-        text: qsTr("Send")
-
-        background: Rectangle
+        Keys.onReturnPressed:
         {
-            color: send.hovered ? "lightblue" : "white"
-            anchors.fill:parent
-        }
-
-        onClicked:
-        {
-            sendInfo(text_area.text)
+            if( event.modifiers & Qt.ControlModifier )
+            {
+                text += '\n'
+                text_area.cursorPosition = text_area.length
+            }
+            else
+            {
+                sendInfo(text_area.text)
+            }
         }
     }
 
-    Button
+    FontDialog
     {
-        id:close
-        x:(root.width - close.width)/2
-        y:root.height - close.height
-        width: root.width * 0.8
-        height: 30
-        text: qsTr("Close")
+         id:fontdlg
+         title: "Please choose a font"
+         font: Qt.font({ family: "Arial", pointSize: 24, weight: Font.Normal })
+         onAccepted:
+         {
+             text_area.font.family = fontdlg.font.family
+             text_area.font.pointSize = fontdlg.font.pointSize
+             text_area.font.bold = fontdlg.font.bold
+             text_area.font.italic = fontdlg.font.italic
+             fontdlg.close()
+         }
+         onRejected:
+         {
+             console.log("Canceled")
+             fontdlg.close()
+         }
+         modality: Qt.WindowModal
+    }
 
-        background: Rectangle
+    ColorDialog
+    {
+         id: colorDialog
+         title: "Please choose a color"
+         onAccepted:
+         {
+             text_area.color = colorDialog.color
+             colorDialog.close()
+         }
+         onRejected:
+         {
+             colorDialog.close()
+         }
+         modality: Qt.WindowModal
+     }
+
+    Row
+    {
+        id:row
+        x:20
+        spacing: 5
+        Button
         {
-            id:close_bg
-            color:close.hovered ? "lightblue" : "white"
-            anchors.fill:parent
+            id:font_button
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/font_icon/font_2.png"
+            icon.width: font_button.width * 0.8
+            icon.height: font_button.height * 0.8
+            icon.color:"white"
+            ToolTip.text: qsTr("Font")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:font_bg
+                color:font_button.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                fontdlg.open()
+            }
         }
-
-        onClicked:
+        Button
         {
-            root.close()
+            id:font_bold
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/font_icon/bold_2.png"
+            icon.width: font_bold.width * 0.8
+            icon.height: font_bold.height * 0.8
+            icon.color:"white"
+            ToolTip.text: qsTr("Bold")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:font_bold_bg
+                color:font_bold.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                text_area.font.bold = true
+            }
+        }
+        Button
+        {
+            id:font_color
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/font_icon/color_2.png"
+            icon.width: font_color.width * 0.8
+            icon.height: font_color.height * 0.8
+            icon.color:"white"
+            ToolTip.text: qsTr("Color")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:font_color_bg
+                color:font_color.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                colorDialog.open()
+            }
+        }
+        Button
+        {
+            id:font_italic
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/font_icon/italic_2.png"
+            icon.width: font_italic.width
+            icon.height: font_italic.height
+            icon.color:"white"
+            ToolTip.text: qsTr("Italic")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:font_italic_bg
+                color:font_italic.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                text_area.font.italic = true
+            }
+        }
+        Button
+        {
+            id:font_underline
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/font_icon/under_line_2.png"
+            icon.width: font_underline.width
+            icon.height: font_underline.height
+            icon.color:"white"
+            ToolTip.text: qsTr("underline")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:font_under_bg
+                color:font_underline.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                text_area.font.underline = true
+            }
+        }
+        Label
+        {
+            text: "tool bar"
+            height:root.height * 0.3 - 35
+            elide: Label.ElideRight
+            y:(root.height - text_area.y - text_area.height - close.height)/2 + text_area.y + text_area.height
+            horizontalAlignment: Qt.AlignHCenter
+            verticalAlignment: Qt.AlignVCenter
+            Layout.fillWidth: true
+            font.pointSize: 12
+            font.family: "Arial"
+            color: "white"
+        }
+        Button
+        {
+            id:close
+            y:(root.height - text_area.y - text_area.height - close.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            //text: qsTr("Close")
+            ToolTip.text: qsTr("Close")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:close_bg
+                color:close.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            icon.source: "qrc:/font_icon/close-square.png"
+            icon.width: close.width
+            icon.height: close.height
+            icon.color:"white"
+
+            onClicked:
+            {
+                root.close()
+            }
+        }
+    }
+
+    Rectangle
+    {
+        id:resize
+        x:root.width - 10
+        y:text_area.y + text_area.height
+        width: 10
+        height: root.height - text_area.y - text_area.height
+        color: "transparent"
+        MouseArea
+        {
+            property variant holdPos: "0,0"
+            anchors.fill: parent
+            cursorShape: Qt.SizeFDiagCursor
+
+            onPressed:
+            {
+                holdPos  = Qt.point(mouseX,mouseY)
+            }
+
+            onPositionChanged:
+            {
+                var delta = Qt.point(mouseX-holdPos.x, mouseY-holdPos.y)
+                root.width += delta.x;
+                root.height += delta.y
+                if(root.width + delta.x > 200)
+                {
+                    root.width += delta.x;
+                }
+                else
+                {
+                    root.width = 200;
+                }
+
+                if(root.height + delta.y > 100)
+                {
+                    root.height = root.height + delta.y;
+                }
+                else
+                {
+                    root.height = 100;
+                }
+            }
         }
     }
 }

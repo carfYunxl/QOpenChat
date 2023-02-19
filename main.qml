@@ -2,6 +2,7 @@ import QtQuick 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
 
+
 import Server 1.0
 
 //import "./function.js" as Functional
@@ -121,7 +122,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/open.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "Open Tcp Server"
                 ToolTip.visible: hovered
 
@@ -138,7 +139,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/closeServer.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "Close Tcp Server"
                 ToolTip.visible: hovered
                 onClicked:
@@ -152,7 +153,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/file.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "Choose File"
                 ToolTip.visible: hovered
             }
@@ -163,7 +164,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/picture.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "Choose Picture"
                 ToolTip.visible: hovered
             }
@@ -188,7 +189,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/min.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: qsTr("show normal")
                 ToolTip.visible: hovered
 
@@ -204,7 +205,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/max.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: qsTr("full screen")
                 ToolTip.visible: hovered
 
@@ -220,7 +221,7 @@ ApplicationWindow
                 icon.source: "qrc:/icon/skin.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "change skin"
                 ToolTip.visible: hovered
 
@@ -236,7 +237,7 @@ ApplicationWindow
                 icon.source: "qrc:/img/winClose.png"
                 icon.width: icon_size
                 icon.height: icon_size
-                icon.color: "red"
+                icon.color: "teal"
                 ToolTip.text: "close window"
                 ToolTip.visible: hovered
 
@@ -383,8 +384,7 @@ ApplicationWindow
                         anchors.fill:parent
                         color:"lightgreen"
                     }
-                    text: port
-
+					text:port
                     onDoubleClicked:
                     {
                         var item = repeater.itemAt(index)
@@ -454,10 +454,8 @@ ApplicationWindow
         }
         onPosChange: function(x,y)
         {
-            console.log("x = " + x + "y = " + y)
             if((x - (sidebar.x + sidebar.width)) < 30)
             {
-                console.log("YES " + x)
                 input_text.x = sidebar.x + sidebar.width;
             }
 
@@ -488,6 +486,7 @@ ApplicationWindow
         }
     }
 
+    //工作区弹出右键菜单的MouseArea
     Rectangle
     {
         id:text_area
@@ -512,7 +511,6 @@ ApplicationWindow
                 }
             }
         }
-
         VisibleTextArea
         {
             id:info_box
