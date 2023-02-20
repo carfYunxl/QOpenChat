@@ -1,7 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.3
-import QtQuick.Dialogs 1.3
+ import Qt.labs.platform 1.1 as Labs
 
 Popup
 {
@@ -12,7 +12,10 @@ Popup
     required property int w_x;
     required property int w_y;
     property alias title: label.text
+    property alias pText:text_area.text
     property int port:0
+    property url jpgSrc:""
+
     x:posx
     y:posy
     width: w_x
@@ -32,6 +35,7 @@ Popup
 
     signal sendInfo(var text);
     signal posChange(var x,var y);
+    signal getFileSrc(var src);
 
     closePolicy: Popup.NoAutoClose
     Rectangle
@@ -112,7 +116,7 @@ Popup
         }
     }
 
-    FontDialog
+    Labs.FontDialog
     {
          id:fontdlg
          title: "Please choose a font"
@@ -133,7 +137,7 @@ Popup
          modality: Qt.WindowModal
     }
 
-    ColorDialog
+    Labs.ColorDialog
     {
          id: colorDialog
          title: "Please choose a color"
@@ -148,6 +152,24 @@ Popup
          }
          modality: Qt.WindowModal
      }
+
+    Labs.FileDialog
+    {
+         id: fileDialog
+         //currentFile: document.source
+         //folder: StandardPaths.writableLocation(StandardPaths.DocumentsLocation)
+         nameFilters: ["All files(*.*)","pictures(*.jpg *.png)","Text files (*.txt)", "HTML files (*.html *.htm)"]
+
+         onAccepted:
+         {
+            getFileSrc(currentFile)
+         }
+
+         onRejected:
+         {
+
+         }
+    }
 
     Row
     {
@@ -274,18 +296,29 @@ Popup
                 text_area.font.underline = true
             }
         }
-        Label
+        Button
         {
-            text: "tool bar"
-            height:root.height * 0.3 - 35
-            elide: Label.ElideRight
-            y:(root.height - text_area.y - text_area.height - close.height)/2 + text_area.y + text_area.height
-            horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignVCenter
-            Layout.fillWidth: true
-            font.pointSize: 12
-            font.family: "Arial"
-            color: "white"
+            id:file
+            y:(root.height - text_area.y - text_area.height - font_button.height)/2 + text_area.y + text_area.height
+            width: height
+            height: root.height * 0.3 - 35
+            icon.source: "qrc:/icon/file.png"
+            icon.width: file.width
+            icon.height: file.height
+            icon.color:"white"
+            ToolTip.text: qsTr("Open File")
+            ToolTip.visible: hovered
+            background: Rectangle
+            {
+                id:file_bg
+                color:file.hovered ? "lightblue" : "transparent"
+                anchors.fill:parent
+            }
+
+            onClicked:
+            {
+                fileDialog.open()
+            }
         }
         Button
         {
