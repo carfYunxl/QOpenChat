@@ -525,6 +525,7 @@ ApplicationWindow
         {
             id:info_box
             anchors.fill: parent
+
         }
     }
 }

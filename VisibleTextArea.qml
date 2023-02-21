@@ -43,7 +43,7 @@ Flickable
              width: infowidth
              height: infoheight
              textFormat: TextEdit.RichText
-             text: "<b>Hello</b> <i>World!</i>"
+             text:qsTr("<img src='file:/Users/yxl/Pictures/mage/bg9.jpg' width=200 height=200>")
              focus: true
              color:"white"
              wrapMode: TextEdit.Wrap
