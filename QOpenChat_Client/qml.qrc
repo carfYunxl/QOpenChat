@@ -1,6 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>InfoBox.qml</file>
+        <file>ChatToolBar.qml</file>
+        <file>ContactPage.qml</file>
+        <file>ConversationPage.qml</file>
     </qresource>
 </RCC>
