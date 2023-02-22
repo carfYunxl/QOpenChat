@@ -20,6 +20,7 @@ RESOURCES += qml.qrc \
     icon.qrc \
     icon.qrc \
     icon.qrc \
+    js.qrc \
     qml.qrc \
     qml.qrc
 

@@ -5,8 +5,6 @@ import QtQuick.Layouts 1.3
 
 import Server 1.0
 
-//import "./function.js" as Functional
-
 ApplicationWindow
 {
     id:root
@@ -451,6 +449,7 @@ ApplicationWindow
         onSendInfo: function(text)
         {
             server.sendMsgToClient(input_text.port,text);
+            pText = text
         }
         onPosChange: function(x,y)
         {
@@ -473,6 +472,17 @@ ApplicationWindow
             {
                 input_text.y = root.y
             }
+        }
+
+        onGetFileSrc: function(src)
+        {
+            console.log(src)
+            var str = new String(src)
+            console.log(str)
+            var srcTxt = qsTr("<img src='") + str.substring(8,str.length) + qsTr("'>")
+            info_box.infotext = srcTxt
+            server.sendMsgToClient(input_text.port,srcTxt);
+
         }
     }
 
@@ -515,6 +525,7 @@ ApplicationWindow
         {
             id:info_box
             anchors.fill: parent
+
         }
     }
 }

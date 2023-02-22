@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>MyFunc.js</file>
+    </qresource>
+</RCC>
