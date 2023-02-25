@@ -72,19 +72,34 @@ Page {
         bottomMargin: 48
         rightMargin: 48
         spacing: 20
-        model: ["张三","李四","王二麻"]
+        model: ListModel
+        {
+            ListElement
+            {
+                display:qsTr("A")
+                value:22
+            }
+            ListElement
+            {
+                display:qsTr("B")
+                value:33
+            }
+            ListElement
+            {
+                display:qsTr("C")
+                value:44
+            }
+        }
         delegate: ItemDelegate {
-//            text: model.display
-            text:modelData
+            text: model.display
             width: listView.width - listView.leftMargin - listView.rightMargin
             height: avatar.implicitHeight
             leftPadding: avatar.implicitWidth + 32
-            onClicked: root.StackView.view.push("qrc:/ConversationPage.qml", { inConversationWith: "model.display" })
+            onClicked: root.StackView.view.push("qrc:/ConversationPage.qml", { inConversationWith: model.display })
 
             Image {
                 id: avatar
-//                source: "qrc:/" + model.display.replace(" ", "_") + ".png"
-                source:"qrc:/icon/blingStar.png"
+                source: "qrc:/user/" + model.display.replace(" ", "_") + ".png"
             }
         }
     }

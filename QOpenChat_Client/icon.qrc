@@ -20,5 +20,8 @@
         <file>icon/skin.png</file>
         <file>icon/video.png</file>
         <file>icon/winClose.png</file>
+        <file>user/A.png</file>
+        <file>user/B.png</file>
+        <file>user/C.png</file>
     </qresource>
 </RCC>

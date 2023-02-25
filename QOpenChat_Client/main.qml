@@ -57,7 +57,8 @@ ApplicationWindow {
     height: 720
     visible: true
 
-    StackView {
+    StackView
+    {
         id: stackView
         anchors.fill: parent
         initialItem: ContactPage {}
